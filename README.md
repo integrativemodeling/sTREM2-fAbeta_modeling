@@ -28,5 +28,5 @@ _Last known good IMP version_:
 _Publications_:
 Soluble TREM2 inhibits secondary nucleation of Aβ fibrillization and enhances cellular uptake of fibrillar Aβ.
 Ketaki D. Belsare#, Haifan Wu#, Dibyendu Mondal#, Annalise Bond, Jia Jin, Hyunil Jo, Addison E. Roush, Kala Bharath Pilla, Andrej Sali*, Carlo Condello*, and William DeGrado*
-Proceedings of the National Academy of Sciences (submitted) DOI: .  
+Proceedings of the National Academy of Sciences (accepted) DOI: .  
 
