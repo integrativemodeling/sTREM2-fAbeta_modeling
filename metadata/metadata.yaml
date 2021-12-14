@@ -1,0 +1,8 @@
+title: Integrative structure of Aβ40fibril-soluble TREM2 complex
+tags: [chemical crosslinks, PMI, X-ray]
+prereqs: [python/numpy, python/matplotlib]
+accessions: []
+pmid: 0
+test:
+    runtime: 24h
+    build: release
