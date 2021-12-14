@@ -21,7 +21,7 @@ The scripts work with the [IMP](http://salilab.org/imp) (Release 2.8.0 and newer
 
 _Author(s)_: Dibyendu Mondal
 
-_License_: CC BY-SA 4.0 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+_License_: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 
 _Last known good IMP version_: 
 
