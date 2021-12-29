@@ -1,4 +1,4 @@
-# Results for the integrative structure determination of Aβ40-sTREM2 complex.
+#Results for the integrative structure determination of Aβ40-sTREM2 complex.
 
 Directory for the main results of the modeling pipelines for determining structure of Aβ40-sTREM2 complex that follows the four stages of integrative modeling. (see README.md in parent directory)
 
@@ -36,3 +36,6 @@ License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
 _Publications_:
+Soluble TREM2 inhibits secondary nucleation of Aβ fibrillization and enhances cellular uptake of fibrillar Aβ.
+Ketaki D. Belsare#, Haifan Wu#, Dibyendu Mondal#, Annalise Bond, Jia Jin, Hyunil Jo, Addison E. Roush, Kala Bharath Pilla, Andrej Sali*, Carlo Condello*, and William DeGrado*
+Proceedings of the National Academy of Sciences DOI:10.1073/pnas.2114486119.  
