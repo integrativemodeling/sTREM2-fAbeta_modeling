@@ -16,7 +16,9 @@ Directory for the main results of the modeling pipelines for determining structu
     * Cluster3 (13.1%) The subdirectory contains [Cluster centroid](./IntegrativeStructures/cluster3/h1_run28_38700.rmf3) in .rmf3, cif and .pdb (all atoms) and the scripts to generate those; additionally the localization probability density and a Chimera seesion.
     * Cluster4 (8.8%) The subdirectory contains [Cluster centroid](./IntegrativeStructures/cluster4/h2_run12_3480.rmf3) in .rmf3, cif and .pdb (all atoms) and the scripts to generate those; additionally the localization probability density and a Chimera seesion.
     * Cluster5 (8.7%) The subdirectory contains [Cluster centroid](./IntegrativeStructures/cluster5/h2_run52_8480.rmf3) in .rmf3, cif and .pdb (all atoms) and the scripts to generate those; additionally the localization probability densities and a Chimera seesion.
-      
+ 
+- `Total_score_convergence_test` contains results of the score_coverence test. 
+     
 - `Avg_XLs` contains the analysis of the cross-links.
     * [XL_analysis_script](./Avg_XLs/make_avg_XL_satisfaction_plot.py) script to calculate avg XLs satisfaction over all 60 independent runs.
     * `avg_dist.pdf` contains the results of the avg XL data satisfaction.
