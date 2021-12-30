@@ -1,4 +1,4 @@
-[![DOI]()]()
+[![DOI](10.5281/zenodo.5810572)]
 
 # Integrative Structure Determination of Aβ40-TREM2 complex
 
