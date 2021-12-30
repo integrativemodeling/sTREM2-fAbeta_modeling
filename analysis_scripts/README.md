@@ -18,9 +18,11 @@ Directory for the analysis scripts for modeling of Aβ40fibril-sTREM2 complex.
 - `00_run_replica_exchange_analysis.py`, `01_run_analysis_trajectories.py`, and `02_run_extract_models_based_on_XLs_satisfraction.py`  
 
 ## Scripts used to assess sampling exhaustiveness and computing sampling and structural precision 
-
-- `03_structure_based_clustering.py`, `04_calculate_sampling_precision.py`, `05_final_transformation.py`, and `06_calculate_cluster_precision.py` .
-
+- `03_structure_based_clustering.py`, `04_calculate_sampling_precision.py`, `05_final_transformation.py`, and `06_calculate_cluster_precision.py`.
+- By running:  imp_sampcon select_good -rd ../modeling_scripts/only_xl -rp run  -sl "CrossLinkingMassSpectrometryRestraint_Distance_" -pl ConnectivityRestraint_None Total_Score -alt 0.8 -aut 1.0 -mlt 0.0 -mut 30.0
+  followed by
+- imp_sampcon exhaust --sysname Abeta --scoreA ./only_xl/filter/scoresA.txt  --scoreB ./only_xl/filter/scoresB.txt 
+  We can obtain Kolmogorov–Smirnov two-sample test statistic. We have used seperate clustering method (by taking into account translational and rotational invariance as discussed in SI of our manuscript.
 
 ## Information
 
