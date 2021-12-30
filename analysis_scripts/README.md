@@ -22,7 +22,7 @@ Directory for the analysis scripts for modeling of Aβ40fibril-sTREM2 complex.
 - By running:  `imp_sampcon select_good -rd ../modeling_scripts/only_xl -rp run  -sl "CrossLinkingMassSpectrometryRestraint_Distance_" -pl ConnectivityRestraint_None Total_Score -alt 0.8 -aut 1.0 -mlt 0.0 -mut 30.0`
 followed by 
 `imp_sampcon exhaust --sysname Abeta --scoreA ./only_xl/filter/scoresA.txt  --scoreB ./only_xl/filter/scoresB.txt`
-We can obtain Kolmogorov–Smirnov two-sample test statistic. We have used seperate clustering method (by taking into account translational and rotational invariance as discussed in SI of our manuscript.
+We can obtain Kolmogorov–Smirnov two-sample test statistic. We have used seperate clustering method (by taking into account translational and rotational invariance as discussed in SI of our manuscript).
 
 ## Information
 
