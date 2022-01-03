@@ -21,6 +21,7 @@ import ihm
 import ihm.location
 import ihm.model
 import ihm.cross_linkers
+import ihm.dumper
 
 
 
@@ -297,7 +298,7 @@ shuffle_exclude_rbs = dof.get_rigid_bodies()[:-1]
 
 
 if '--mmcif' in sys.argv:
-    num_frames = 20
+    num_frames=200
     start = 0
     end = 1
     optimize_flex_beads_steps = 1
@@ -326,15 +327,13 @@ rex = IMP.pmi.macros.ReplicaExchange0(mdl,
         number_of_best_scoring_models=0,
         monte_carlo_steps=mc_steps,
         number_of_frames=num_frames,
-        global_output_directory=global_output_directory,
-        test_mode=True)  
+        global_output_directory=global_output_directory)
 rex.execute_macro()
 
 po.finalize()
 
 s = po.system
 
-import ihm.dumper
 with open('initial.cif', 'w') as fh:
     ihm.dumper.write(fh, [s])
 
