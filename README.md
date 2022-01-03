@@ -13,6 +13,7 @@ The scripts work with the [IMP](http://salilab.org/imp) (Release 2.8.0 and newer
 - `modeling_scripts`	 contains all the modeling and analysis scripts to generate the ensemble of solutions and analyze them. 
 - `analysis_scripts`	 contains all analysis scripts which should be used to process all sampling outputs.
 - `results`	 contains all relevent results discussed in the published paper.
+- `archiving`	 contains script to generate the mmcif file for PDBDev deposition.
 
 ## Integrative modeling approach summary for this project
 ![](./Ab40TREM2.FourStages.T.png)
