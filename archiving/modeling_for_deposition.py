@@ -12,6 +12,8 @@ import IMP.pmi.restraints.stereochemistry
 import IMP.pmi.restraints.crosslinking
 import IMP.pmi.io
 import IMP.pmi.io.crosslink
+import RMF
+import IMP.rmf
 import sys
 import os
 
@@ -151,14 +153,19 @@ fibril_mols = [Abeta, AbetaB, AbetaC]
 protofil_mols = [[Abeta], [AbetaB], [AbetaC]]
 
 abeta_chains = ['A', 'B', 'C']
-additional_chains = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15'],
-                       ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14', 'B15'],
-                       ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15']]
+#additional_chains = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15'],
+#                       ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14', 'B15'],
+#                       ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15']]
 
 # somehow multiletter chain can not be handled, switching back to one-letter code
-#additional_chains = [['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
-#                       ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
-#                       ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C']]
+additional_chains = [['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+                       ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+                       ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C']]
+
+#additional_chains = [['D', 'E', 'F', 'G', 'H', 'I', 'J', 'A', 'K', 'L', 'M', 'N', 'O', 'P', 'Q'],
+#                       ['S', 'T', 'U', 'V', 'W', 'a', 'b', 'B', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
+#                       ['k', 'l', 'm', 'n', 'o', 'p', 'q', 'C', 'r', 's', 't', 'u', 'v', 'w', 'x']]
+
 
 for i in range(0, len(abeta_chains)):
     for j in range(0, len(fibril_transforms)):
@@ -233,7 +240,7 @@ for i in range(0, len(abeta_chains)):
     for t in range(0, len(fibril_transforms)):
         threefold_trans = fibril_transforms[t]
         dof.constrain_symmetry(protofil_mols[i][0], protofil_mols[i][t + 1], threefold_trans)
-mdl.update()
+#mdl.update()
 
 #########################################################################################
 # -----------------------------ADD RESTRAINTS -----------------------------------------
@@ -306,11 +313,10 @@ if '--mmcif' in sys.argv:
     num_frames=20
     start = 0
     end = 1
-    optimize_flex_beads_steps = 1
+    optimize_flex_beads_steps = 100
 
 run_num = 1
 global_output_directory = outdir + str(run_num) + output
-print(global_output_directory)
 
 IMP.pmi.tools.shuffle_configuration(root_hier, excluded_rigid_bodies=shuffle_exclude_rbs,
         max_translation=max_shuff_translation)
@@ -340,11 +346,6 @@ po.finalize()
 
 sp = po.system
 
-print(dir(s))
-#print(s.citations)
-with open('initial.cif', 'w') as fh:
-    ihm.dumper.write(fh, [sp])
-
 # Datasets for XL-MS restraint
 for r in sp.restraints:
     if isinstance(r, ihm.restraint.CrossLinkRestraint):
@@ -360,10 +361,54 @@ last_step = sp.orphan_protocols[-1].steps[-1]
 last_step.num_models_end = 3000000
 
 # Get last protocol in the file
-protocol = po.system.orphan_protocols[-1]
+protocol = sp.orphan_protocols[-1]
+
 # State that we filtered the 3000000 frames
 analysis = ihm.analysis.Analysis()
 protocol.analyses.append(analysis)
 analysis.steps.append(ihm.analysis.ClusterStep(
-                      feature='RMSD', num_models_begin=3000000,
-                      num_models_end=100))
+                      feature='RMSD', num_models_begin=32000,
+                      num_models_end=11232))
+
+
+mg = ihm.model.ModelGroup(name="Cluster 0")
+# Add to last state
+sp.state_groups[-1][-1].append(mg)
+
+
+e = ihm.model.Ensemble(model_group=mg,
+                       num_models=11232,
+                       post_process=analysis.steps[-1],
+                       name="Cluster 0",
+                       precision=10.0)
+sp.ensembles.append(e)
+
+# we have 45 Abeta chains
+Uniprot_accesion_codes = {}
+Uniprot_accesion_codes["TREM2.0"] = "Q9NZC2"
+Uniprot_accesion_codes["Abeta."+str(0)] = "P05067"
+
+for p, c in Uniprot_accesion_codes.items():
+    ref = ihm.reference.UniProtSequence.from_accession(c)
+    if p.startswith('Abeta'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=672,db_end=711))
+    po.asym_units[p].entity.references.append(ref)
+
+with open('initial.cif', 'w') as fh:
+    ihm.dumper.write(fh, [sp])
+
+m = IMP.Model()
+# Add the model from RMF
+inf1 = RMF.open_rmf_file_read_only('../results/IntegrativeStructures/cluster1/h2_run50_12980.rmf3')
+num_frames = inf1.get_number_of_frames()
+print(num_frames)
+#h = IMP.rmf.create_hierarchies(inf1, m)[0]
+IMP.rmf.link_hierarchies(inf1, [root_hier])
+IMP.rmf.load_frame(inf1, RMF.FrameID(0))
+m.update()
+
+model = po.add_model(e.model_group)
+
+po.finalize()
+with open('Abeta40-sTREM2.cif', 'w') as fh:
+    ihm.dumper.write(fh, [sp])
