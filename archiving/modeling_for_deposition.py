@@ -106,7 +106,7 @@ if '--mmcif' in sys.argv:
     po = IMP.pmi.mmcif.ProtocolOutput()
     po.system.title = ('Integrative structure of Abeta-sTREM2 complex')
 #    po.system.citations.append(ihm.Citation.from_pubmed_id(29531062))
-    bs.system.add_protocol_output(po)
+    s.add_protocol_output(po)
 
 st = s.create_state()
 
@@ -154,6 +154,11 @@ abeta_chains = ['A', 'B', 'C']
 additional_chains = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15'],
                        ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14', 'B15'],
                        ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15']]
+
+# somehow multiletter chain can not be handled, switching back to one-letter code
+#additional_chains = [['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+#                       ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+#                       ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C']]
 
 for i in range(0, len(abeta_chains)):
     for j in range(0, len(fibril_transforms)):
@@ -298,7 +303,7 @@ shuffle_exclude_rbs = dof.get_rigid_bodies()[:-1]
 
 
 if '--mmcif' in sys.argv:
-    num_frames=200
+    num_frames=20
     start = 0
     end = 1
     optimize_flex_beads_steps = 1
@@ -327,20 +332,26 @@ rex = IMP.pmi.macros.ReplicaExchange0(mdl,
         number_of_best_scoring_models=0,
         monte_carlo_steps=mc_steps,
         number_of_frames=num_frames,
-        global_output_directory=global_output_directory)
+        global_output_directory=global_output_directory,
+        test_mode=True)
 rex.execute_macro()
 
 po.finalize()
 
-s = po.system
+sp = po.system
 
+print(dir(s))
+#print(s.citations)
 with open('initial.cif', 'w') as fh:
-    ihm.dumper.write(fh, [s])
+    ihm.dumper.write(fh, [sp])
 
 # Datasets for XL-MS restraint
-for r in s.restraints:
+for r in sp.restraints:
     if isinstance(r, ihm.restraint.CrossLinkRestraint):
         print("XL-MS dataset at:", r.dataset.location.path)
         print("Details:", r.dataset.location.details)
 
-print(s.orphan_protocols)
+# Get last step of last protocol (protocol is an 'orphan' because
+# we haven't used it for a model yet)
+last_step = sp.orphan_protocols[-1].steps[-1]
+print(last_step.num_models_end)
