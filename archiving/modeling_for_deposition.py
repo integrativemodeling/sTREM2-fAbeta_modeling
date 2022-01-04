@@ -354,4 +354,16 @@ for r in sp.restraints:
 # Get last step of last protocol (protocol is an 'orphan' because
 # we haven't used it for a model yet)
 last_step = sp.orphan_protocols[-1].steps[-1]
-print(last_step.num_models_end)
+
+
+# Correct number of output models to account for multiple runs
+last_step.num_models_end = 3000000
+
+# Get last protocol in the file
+protocol = po.system.orphan_protocols[-1]
+# State that we filtered the 3000000 frames
+analysis = ihm.analysis.Analysis()
+protocol.analyses.append(analysis)
+analysis.steps.append(ihm.analysis.ClusterStep(
+                      feature='RMSD', num_models_begin=3000000,
+                      num_models_end=100))
